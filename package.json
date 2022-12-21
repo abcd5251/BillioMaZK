@@ -1,0 +1,13 @@
+{
+  "name": "hardhat-project",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "hardhat": "^2.12.4"
+  },
+  "dependencies": {
+    "alchemy-sdk": "^2.2.5",
+    "big-integer": "^1.6.51",
+    "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.7"
+  }
+}

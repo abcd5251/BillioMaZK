@@ -25,5 +25,10 @@ async function main(){
         "paths2_root_pos" :  leaf1Pos
     }
     fs.writeFileSync("./input.json",JSON.stringify(inputs),"utf-8")
+    const leaf5 = mimc7.multiHash([0],1)
+    console.log(leaf1)
+    console.log(leaf5)
+    const leaf6 = mimc7.multiHash([0],1)
+    console.log(leaf6)
 }
 main()

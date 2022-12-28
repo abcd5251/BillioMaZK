@@ -14,11 +14,12 @@ contract mainBillio{
     uint256 public maxPeople;
     address public owner;
     bool public logging;
+    
 
-    IVerifier public verifier;
+    //IVerifier public verifier;
 
-    constructor (address _instance) {
-        verifier = IVerifier(_instance);
+    constructor () {
+        owner = msg.sender;
     }
 
     struct Domain{
@@ -40,11 +41,12 @@ contract mainBillio{
         _;
     }
 
-    function login(string memory _name, string memory _idcommitment) public onlyOwner{
-        require(!secret_name[_idcommitment],"Password already used!");
-        secret_name[_idcommitment] = true;
+    function login(string memory _name, string memory _id) public onlyOwner{
+        require(!secret_name[_id],"Password already used!");
+        secret_name[_id] = true;
         maxPeople++;
         domains[maxPeople] =  Domain(_name, 0, maxPeople);
+        logging = true;
     }
 
     function add_asset(string memory _hash_address, uint256 _amount) public haslogin{

@@ -24,6 +24,8 @@ async function main(){
         "paths2_root" : [BigInt(F.toObject(leaf1Proof[0])).toString(),BigInt(F.toObject(leaf1Proof[1])).toString()],
         "paths2_root_pos" :  leaf1Pos
     }
+    const leaf6 = mimc7.multiHash([BigInt("aa"),8,7],1)
+    console.log(leaf6)
     fs.writeFileSync("./input.json",JSON.stringify(inputs),"utf-8")
 }
 main()

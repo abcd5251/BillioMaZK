@@ -14,6 +14,8 @@
     "circom": "^0.5.46",
     "circomlib": "^2.0.5",
     "circomlibjs": "^0.1.7",
+    "crypto-js": "^4.1.1",
+    "ethereum-unit-converter": "^0.0.17",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",

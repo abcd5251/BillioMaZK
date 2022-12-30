@@ -33,6 +33,7 @@ async function main(){
         zkeyFilePath: "./semaphore.zkey",
         wasmFilePath: "./semaphore.wasm"
     })
+    console.log(fullProof)
     
     
     const verificationKey = JSON.parse(fs.readFileSync("./semaphore.json", "utf-8"))

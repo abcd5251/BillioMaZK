@@ -1,0 +1,12 @@
+{
+    "name" : "First",
+    "description": "Your are Billionaire",
+    "image" : "https://ipfs.io/ipfs/QmbJQoserN4U7xkLbwMsTrcggAxzwjVrjWvgSN7QBPoh83",
+    "attributes": [
+        {
+            "trait_type": "Strength",
+            "value": 10,
+            "max_value": 10
+        }
+    ]
+}

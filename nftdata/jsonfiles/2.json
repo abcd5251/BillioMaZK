@@ -1,0 +1,12 @@
+{
+    "name" : "Second",
+    "description": "Your are millionaire",
+    "image" : "https://ipfs.io/ipfs/QmeNr4GxpAr3xsF33jKtDkZ2hrJAenzTgSuXJdtFTFXZPD",
+    "attributes": [
+        {
+            "trait_type": "Strength",
+            "value": 7,
+            "max_value": 10
+        }
+    ]
+}

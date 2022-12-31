@@ -5,7 +5,8 @@ const { Alchemy, Network } = require("alchemy-sdk");
 const convert = require('ethereum-unit-converter')
 const { Identity } = require("@semaphore-protocol/identity")
 const { Group } = require("@semaphore-protocol/group")
-const { generateProof, verifyProof } = require("@semaphore-protocol/proof")
+const { generateProof, verifyProof , packToSolidityProof} = require("@semaphore-protocol/proof")
+const { poseidonContract} =  require("circomlibjs")
 const fs = require('fs')
 
 
@@ -13,16 +14,14 @@ function hexToDec(hex) {
   return parseInt(hex, 16);
 }
 
-async function save_to_merkletree(id_commitment, merkleroot){
-      
-}
 
 
 async function getasset(searchAddress){
     const config = {
-      apiKey: process.env.ALCHEMY_APIKEY,
+      apiKey: "SEIDb2b8ce6bAGXPCRaEtr_SPi-WpFjq",
       network: Network.ETH_MAINNET,
     };
+    
     const alchemy = new Alchemy(config);
 
     //The below token contract address corresponds to Dai
@@ -46,27 +45,72 @@ const tokens = (n) => {
 }
 
 describe("BillioMaZK", () => {
-  let main
-  let deployer, owner1
+  let main, semaphore , identity1
   
+
   beforeEach(async() => {
+    // Incremental merkletree deploy 
+    const poseidonT3ABI = poseidonContract.generateABI(2)
+    const poseidonT3Bytecode = poseidonContract.createCode(2)
 
-    // set account and name, password
-    [deployer, owner1] = await ethers.getSigners()
+    // Set deployer 
+    const [deployer, signer] = await ethers.getSigners()
 
+    const PoseidonLibT3Factory = new ethers.ContractFactory(poseidonT3ABI, poseidonT3Bytecode, signer)
+    const poseidonT3Lib = await PoseidonLibT3Factory.deploy()
+
+    await poseidonT3Lib.deployed()
+
+    console.log(`PoseidonT3 library has been deployed to: ${poseidonT3Lib.address}`)
+
+    const IncrementalBinaryTreeLibFactory = await ethers.getContractFactory("IncrementalBinaryTree", {
+        libraries: {
+            PoseidonT3: poseidonT3Lib.address
+        }
+    })
+    const incrementalBinaryTreeLib = await IncrementalBinaryTreeLibFactory.deploy()
+    await incrementalBinaryTreeLib.deployed()
+    console.log(`IncrementalBinaryTree library has been deployed to: ${incrementalBinaryTreeLib.address}`)
+
+    // Semaphore deploy 
+    const verifier16 = await ethers.getContractFactory("Verifier16")
+    const Semaphore = await ethers.getContractFactory("Semaphore", {
+      libraries: {
+          IncrementalBinaryTree: incrementalBinaryTreeLib.address
+      }
+    })
+    const verifier = await verifier16.deploy()
+    semaphore = await Semaphore.deploy("16",verifier.address)
+
+    console.log(`Semaphore contract has been deployed to: ${semaphore.address}`)
+
+    
     // deploy contract
     const mainBillio = await ethers.getContractFactory('mainBillio')
     main = await mainBillio.deploy()
+    console.log("aaaa")
+   
+     // deploy NFT contract
+    const nftcontract1 = await ethers.getContractFactory('Number1')
+    nft1 = await nftcontract1.deploy("Identity","Symbol",verifier.address)
+    console.log(`NFT1 contract has been deployed to: ${nft1.address}`)
 
-    // login 
+    const nftcontract2 = await ethers.getContractFactory('Number2')
+    nft2 = await nftcontract2.deploy("Identity","Symbol",verifier.address)
+    console.log(`NFT2 contract has been deployed to: ${nft2.address}`)
+
+    const nftcontract3 = await ethers.getContractFactory('Number3')
+    nft3 = await nftcontract3.deploy("Identity","Symbol",verifier.address)
+    console.log(`NFT3 contract has been deployed to: ${nft3.address}`)
+
+      // Set account and name, password  
     const accountname = "Bob"
     const password = "Bobishandsome"
-    const identity = new Identity(password)
+    identity1 = new Identity(password)
 
-    const transaction = await main.connect(deployer).login(accountname, identity.commitment)
+    const transaction = await main.connect(deployer).login(accountname, identity1.commitment)
     await transaction.wait()
-  }
-  )
+  })
 
   describe("Login", () => {
     it('Successful login', async() => {
@@ -85,7 +129,8 @@ describe("BillioMaZK", () => {
       outputvalue = await getasset(searchAddress) // get address balance
 
       value = Math.floor(convert(outputvalue, 'wei', 'ether'))
-
+      const [deployer] = await ethers.getSigners()
+      console.log("aa",deployer.address)
       const transaction = await main.connect(deployer).add_asset(SHA256(searchAddress), value)
       await transaction.wait()
     })
@@ -93,23 +138,52 @@ describe("BillioMaZK", () => {
 
   describe("Save group", () => {
     it('Successful save to correct group', async() => {
-      let value, outputvalue
-      var searchAddress = "0xEbf29A4dc710040B12E68465331F70e42f053d7b"
-      outputvalue = await getasset(searchAddress)
-      value = Math.floor(convert(outputvalue, 'wei', 'ether'))
+
+      const [deployer] = await ethers.getSigners()
+      console.log("aa",deployer.address)
+      // Create group 
+      const transaction_group1 = await semaphore.connect(deployer).createGroup(1, 16, BigInt(1), deployer.address)
+      await transaction_group1.wait()
+
+      const transaction_group2 = await semaphore.connect(deployer).createGroup(2, 16, BigInt(1), deployer.address)
+      await transaction_group2.wait()
+
+      const transaction_group3 = await semaphore.connect(deployer).createGroup(3, 16, BigInt(1), deployer.address)
+      await transaction_group3.wait()
       
-      console.log(value)
-      const transaction = await main.connect(deployer).add_asset(SHA256(searchAddress), value)
-      await transaction.wait()
+      const addddd = await semaphore.connect(deployer).addMember(1, identity1.commitment)
+      await addddd.wait()
 
-      let domain_idx = await main.maxPeople()
-      console.log(domain_idx)
-      let domain = await main.getDomain(domain_idx)
-      console.log(domain.asset)
-      if (domain.asset > 900) {
-        
-      }
 
+      const group = new Group(16, BigInt(1))
+      group.addMember(identity1.commitment)
+      const java_externalNullifier = group.root
+    
+      const greeting = "0x000000000000000000000000000000000000000000000000000000000000007b"
+
+      const fullProof = await generateProof(identity1, group, java_externalNullifier, greeting, {
+        zkeyFilePath: "./test_semaphore/semaphore.zkey",
+        wasmFilePath: "./test_semaphore/semaphore.wasm"
+      })
+
+      const proof = packToSolidityProof(fullProof.proof)
+      const { merkleRoot, nullifierHash, signalHash, externalNullifier} = fullProof.publicSignals
+      const transaction10 = await semaphore.connect(deployer).verifyProof(1, merkleRoot, greeting, nullifierHash, externalNullifier, proof)
+      await transaction10.wait()
+
+    
+
+      const verificationKey = JSON.parse(fs.readFileSync("./test_semaphore/semaphore.json", "utf-8"))
+      const pass = await verifyProof(verificationKey, fullProof).then(v => v.toString())
+      console.log("javascript :", pass)
+      const greeting_test = "0x000000000000000000000000000000000000000000000000000000000000009b"
+
+      console.log(fullProof)
+
+      //nft 
+      const transaction112= await nft1.connect(deployer).mint(deployer.address,1,[proof[0],proof[1]],[[proof[2],proof[3]],[proof[4],proof[5]]],[proof[6],proof[7]],[merkleRoot, nullifierHash, signalHash, externalNullifier])
+      const nftpass = await transaction112.wait()
+      console.log("nftmint :", nftpass)
       
     })
 })

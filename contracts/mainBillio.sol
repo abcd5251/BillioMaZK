@@ -1,22 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.4;
 
-interface IVerifier {
-    function verifyProof(
-        uint256[2] memory a,
-        uint256[2][2] memory b,
-        uint256[2] memory c,
-        uint256[6] memory input // publicSignals
-    ) external view returns (bool r);
-}
 
 contract mainBillio{
     uint256 public maxPeople;
     address public owner;
     bool public logging;
     
-
-    //IVerifier public verifier;
 
     constructor () {
         owner = msg.sender;

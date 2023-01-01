@@ -35,7 +35,7 @@ contract Semaphore is ISemaphore, SemaphoreCore, SemaphoreGroups{
     }
 
    
-    constructor(uint256 depth, address verifier_address ) {
+    constructor(uint256 depth, address verifier_address) {
         
         verifiers[depth] = IVerifier(verifier_address);
     }

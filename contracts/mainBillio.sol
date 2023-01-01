@@ -31,7 +31,7 @@ contract mainBillio{
         _;
     }
 
-    function login(string memory _name, string memory _id) public onlyOwner{
+    function login(string memory _name, string memory _id) public {
         require(!secret_name[_id],"Password already used!");
         secret_name[_id] = true;
         maxPeople++;
@@ -46,5 +46,20 @@ contract mainBillio{
 
     function getDomain(uint256 _id) public view returns (Domain memory){
         return domains[_id];
+    }
+
+    function setfordemo() public onlyOwner{
+        domains[maxPeople] =  Domain("Bob", 15, maxPeople);
+        maxPeople++;
+        domains[maxPeople] =  Domain("Alice", 10, maxPeople);
+        maxPeople++;
+        domains[maxPeople] =  Domain("Tom", 8, maxPeople);
+        maxPeople++;
+        domains[maxPeople] =  Domain("Tiffany", 6, maxPeople);
+        maxPeople++;
+        domains[maxPeople] =  Domain("Leo", 3, maxPeople);
+        maxPeople++;
+        domains[maxPeople] =  Domain("David", 7, maxPeople);
+        maxPeople++;
     }
 }

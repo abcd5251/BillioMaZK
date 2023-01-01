@@ -5,6 +5,7 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
+const { poseidonContract} =  require("circomlibjs")
 
 const tokens = (n) => {
   return ethers.utils.parseUnits(n.toString(), 'ether')
@@ -13,14 +14,16 @@ const tokens = (n) => {
 async function main() {
 
     // Set deployer 
-    const [deployer, signer] = await ethers.getSigners()
+    const [deployer] = await ethers.getSigners()
+    console.log("Deploying contracts with the account:", deployer.address);
+    console.log("Account balance:", (await deployer.getBalance()).toString());
 
     // Incremental merkletree deploy 
     const poseidonT3ABI = poseidonContract.generateABI(2)
     const poseidonT3Bytecode = poseidonContract.createCode(2)
 
     
-    const PoseidonLibT3Factory = new ethers.ContractFactory(poseidonT3ABI, poseidonT3Bytecode, signer)
+    const PoseidonLibT3Factory = new ethers.ContractFactory(poseidonT3ABI, poseidonT3Bytecode, deployer)
     const poseidonT3Lib = await PoseidonLibT3Factory.deploy()
 
     await poseidonT3Lib.deployed()
@@ -36,36 +39,90 @@ async function main() {
     await incrementalBinaryTreeLib.deployed()
     console.log(`IncrementalBinaryTree library has been deployed to: ${incrementalBinaryTreeLib.address}`)
 
-    // Semaphore deploy 
+    // Verifier deploy 
     const verifier16 = await ethers.getContractFactory("Verifier16")
+    const verifier = await verifier16.deploy()
+    console.log(`Verifier contract has been deployed to: ${verifier.address}`)
+    
+    // Semaphore deploy 
     const Semaphore = await ethers.getContractFactory("Semaphore", {
       libraries: {
           IncrementalBinaryTree: incrementalBinaryTreeLib.address
       }
     })
-    const verifier = await verifier16.deploy()
-    await Semaphore.deploy("16",verifier.address)
+    const semaphore = await Semaphore.deploy("16",verifier.address)
+    console.log(`Semaphore contract has been deployed to: ${semaphore.address}`)
 
-    console.log(`Semaphore contract has been deployed to: ${Semaphore.address}`)
-
-    // deploy contract
+    // deploy main contract
     const mainBillio = await ethers.getContractFactory('mainBillio')
-    await mainBillio.deploy()
-    console.log(`mainBillio contract has been deployed to: ${mainBillio.address}`)
+    const main = await mainBillio.deploy()
+    console.log(`mainBillio contract has been deployed to: ${main.address}`)
 
     // deploy NFT contract
     const nftcontract1 = await ethers.getContractFactory('Number1')
-    nft1 = await nftcontract1.deploy("Identity","Symbol")
+    const nft1 = await nftcontract1.deploy("Identity1","Symbol1", verifier.address)
     console.log(`NFT1 contract has been deployed to: ${nft1.address}`)
 
     const nftcontract2 = await ethers.getContractFactory('Number2')
-    nft2 = await nftcontract2.deploy("Identity","Symbol")
+    const nft2 = await nftcontract2.deploy("Identity2","Symbol2", verifier.address)
     console.log(`NFT2 contract has been deployed to: ${nft2.address}`)
 
     const nftcontract3 = await ethers.getContractFactory('Number3')
-    nft3 = await nftcontract3.deploy("Identity","Symbol")
+    const nft3 = await nftcontract3.deploy("Identity3","Symbol3", verifier.address)
     console.log(`NFT3 contract has been deployed to: ${nft3.address}`)
+
+    // Add default domain people for demo
+    const transaction = await main.connect(deployer).setfordemo()
+    await transaction.wait()
+    for (var i = 0; i < 6; i++) {
+      let showdomain = await main.getDomain(i);
+      console.log(`Listed Domain ${i}: ${showdomain.show_name}`)
+      console.log(`Listed Domain ${i}: ${showdomain.asset}`)
+    }   
+
+    const maxPeople = await main.maxPeople()
+    console.log(maxPeople.toString()) 
+
+    const contract_addresses = {
+      "31337": {
+          "mainBillio": {
+              "address": main.address
+          },
+          "Semaphore": {
+              "address": semaphore.address
+          },
+          "NFT1": {
+              "address": nft1.address
+          },
+          "NFT2": {
+              "address": nft2.address
+          },
+          "NFT3": {
+              "address": nft3.address
+          },
+          "Verifier": {
+              "address": verifier.address
+          }
+      }
+  }
+  saveconfigaddress(contract_addresses);
 }
+
+function saveconfigaddress(contract_addresses) {
+  const fs = require("fs");
+  const contractsDir = __dirname + "/../src/config";
+
+  if (!fs.existsSync(contractsDir)) {
+    fs.mkdirSync(contractsDir);
+  }
+
+  fs.writeFileSync(
+    contractsDir + `/config.json`,
+    JSON.stringify(contract_addresses, undefined, 2)
+   
+  );
+}
+
 
 main().catch((error) => {
   console.error(error);

@@ -118,21 +118,21 @@ header {
 }
 
 .header__subtitle {
-  margin: 0 0 25px 75px;
+  margin: 0px 0px 5px 75px;
   padding-top: 100px;
 
   font-family: "Open Sans";
-  font-size: 1em;
+  font-size: 30px;
   font-weight: 600;
   text-transform: uppercase;
 }
 
 .header__title {
-  margin: 0 0 25px 75px;
+  margin: 0 50px 30px 75px;
 
   font-family: "Merriweather";
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 800;
+  font-size: 40px;
+  font-weight: bold;
 }
 
 .header__search {
@@ -141,6 +141,7 @@ header {
 
 .header__input {
   margin-left: 75px;
+  margin-bottom: 30px;
   height: 60px;
   padding: 0 20px;
   min-width: 30%;
@@ -276,6 +277,17 @@ header {
 
 .card__button:hover .card__button {
   border-color: var(--clr-grey-2);
+}
+
+.container {
+  width: 25%;
+  height: 50%;
+  border: 1px solid black;
+  background-color: rgba(150,150,150,.6);
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  backdrop-filter:blur(5px);
 }
 
 /* ------------------------------------------------------ */

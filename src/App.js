@@ -16,6 +16,7 @@ import Number3 from './abis/Number3.json'
 import Semaphore from './abis/Semaphore.json'
 
 // Config
+import use from './config/use.json'
 import config from './config/config.json';
 
 
@@ -34,7 +35,7 @@ function App() {
   const loadBlockchainData = async () => {
 
     // use ether provider to connect to blockchain 
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.providers.Web3Provider(window.ethereum) // (window.ethereum, "goerli")
     setProvider(provider)
 
     const network = await provider.getNetwork()
@@ -83,7 +84,7 @@ function App() {
      <div>
       <Navigation account = {account} setAccount = {setAccount} />
 
-      <Search mainbillio={mainbillio} provider={provider}/>
+      <Search mainbillio={mainbillio} semaphore = {semaphore} provider={provider} account = {account}/>
    
       <div className='cards__section'>
         <h2 className='cards__title'>Asset Ranking</h2>
@@ -99,7 +100,14 @@ function App() {
           ))}
         </div>
 
+        
+
+
       </div>
+      <hr />
+      <h1 className='buttom_title'>Input proof to get your certificate nft</h1>
+      <input/>
+      <button></button>
 
     </div>
   );

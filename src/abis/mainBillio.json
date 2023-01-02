@@ -117,6 +117,13 @@
   },
   {
     "inputs": [],
+    "name": "save_asset",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "setfordemo",
     "outputs": [],
     "stateMutability": "nonpayable",

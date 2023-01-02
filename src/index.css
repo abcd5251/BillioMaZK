@@ -111,6 +111,14 @@ header {
   position: relative;
 }
 
+.header__word {
+  margin: 30px 0px 30px 50px;
+}
+
+.header__total {
+  margin: 0px 0px 10px 50px;
+}
+
 .header__subtitle,
 .header__title {
   color: var(--clr-black);
@@ -118,7 +126,7 @@ header {
 }
 
 .header__subtitle {
-  margin: 0px 0px 5px 75px;
+  margin: 0px 0px 5px 50px;
   padding-top: 100px;
 
   font-family: "Open Sans";
@@ -127,9 +135,29 @@ header {
   text-transform: uppercase;
 }
 
-.header__title {
-  margin: 0 50px 30px 75px;
+.header__login {
+  margin: 0px 0px 30px 50px;
+  padding-top: 30px;
 
+  font-family: "Open Sans";
+  font-size: 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.header__subtitle2 {
+  margin: 0px 0px 30px 50px;
+  padding-top: 40px;
+
+  font-family: "Open Sans";
+  font-size: 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.header__title {
+  margin: 0 0px 0px 50px;
+  padding-top: 70px;
   font-family: "Merriweather";
   font-size: 40px;
   font-weight: bold;
@@ -147,8 +175,66 @@ header {
   min-width: 30%;
   border: none;
 }
+.header__button3 {
+  width: 125px;
+  height: 60px;
+  margin: 0px 0px 50px 40px;
+
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+
+  border: none;
+
+  font-family: "Open Sans";
+  font-size: 1em;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 250ms ease;
+}
+
+.buttom_title{
+  margin: 40px 0px 50px 400px;
+}
+
+.header__button4 {
+  width: 125px;
+  height: 60px;
+  margin: 0px 0px 50px 100px;
+
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+
+  border: none;
+
+  font-family: "Open Sans";
+  font-size: 1em;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 250ms ease;
+}
+
 
 .header__button {
+  width: 125px;
+  height: 60px;
+  margin: 0px 0px 50px 90px;
+
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+
+  border: none;
+
+  font-family: "Open Sans";
+  font-size: 1em;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 250ms ease;
+}
+
+.header__button2 {
   width: 125px;
   height: 60px;
 

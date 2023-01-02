@@ -53,6 +53,19 @@ async function main() {
     const semaphore = await Semaphore.deploy("16",verifier.address)
     console.log(`Semaphore contract has been deployed to: ${semaphore.address}`)
 
+    // Create three certificate of semaphore group
+    const transaction_group1 = await semaphore.connect(deployer).createGroup(1, 16, BigInt(1), deployer.address)
+    await transaction_group1.wait()
+    console.log(`Group1 has created`)
+
+    const transaction_group2 = await semaphore.connect(deployer).createGroup(2, 16, BigInt(1), deployer.address)
+    await transaction_group2.wait()
+    console.log(`Group2 has created`)
+
+    const transaction_group3 = await semaphore.connect(deployer).createGroup(3, 16, BigInt(1), deployer.address)
+    await transaction_group3.wait()
+    console.log(`Group3 has created`)
+
     // deploy main contract
     const mainBillio = await ethers.getContractFactory('mainBillio')
     const main = await mainBillio.deploy()

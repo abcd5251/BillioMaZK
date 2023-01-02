@@ -15,10 +15,10 @@ const Navigation = ({ account, setAccount }) => {
         <h1>BillioMaZK</h1>
 
         <ul className='nav__links'>
-          <li><a href="/">Domain Names</a></li>
-          <li><a href="/">Websites & Hosting</a></li>
-          <li><a href="/">Commerce</a></li>
-          <li><a href="/">Email & Marketing</a></li>
+          <li><a href="/">Account Names</a></li>
+          <li><a href="/">About Certificate</a></li>
+          <li><a href="/">Donate</a></li>
+          <li><a href="/">Contact Us</a></li>
         </ul>
       </div>
 

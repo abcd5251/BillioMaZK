@@ -20,6 +20,7 @@ contract mainBillio{
     mapping(uint256 => Domain) domains;
     mapping(string => bool) secret_name; // leaf in merkle tree
     mapping(string => bool) hash_addresses;
+    mapping(string => bool) account_name;
 
     modifier onlyOwner(){
         require(msg.sender == owner);
@@ -33,6 +34,7 @@ contract mainBillio{
 
     function login(string memory _name, string memory _id) public {
         require(!secret_name[_id],"Password already used!");
+        require(!account_name[_name], "Account Name already used!");
         secret_name[_id] = true;
         domains[maxPeople] =  Domain(_name, 0, maxPeople);
         logging = true;
@@ -41,6 +43,7 @@ contract mainBillio{
     function add_asset(string memory _hash_address, uint256 _amount) public haslogin{
         require(!hash_addresses[_hash_address],"Address already used!");
         domains[maxPeople].asset = domains[maxPeople].asset + _amount;
+        hash_addresses[_hash_address] = true;
     }
 
     function getDomain(uint256 _id) public view returns (Domain memory){

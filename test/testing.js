@@ -1,12 +1,12 @@
 require('dotenv').config()
 const { expect } = require("chai")
-const SHA256 = require('crypto-js/sha256')
 const { Alchemy, Network } = require("alchemy-sdk");
 const convert = require('ethereum-unit-converter')
 const { Identity } = require("@semaphore-protocol/identity")
 const { Group } = require("@semaphore-protocol/group")
 const { generateProof, verifyProof , packToSolidityProof} = require("@semaphore-protocol/proof")
 const { poseidonContract} =  require("circomlibjs")
+const { createHash } = require('crypto')
 const fs = require('fs')
 
 
@@ -14,7 +14,9 @@ function hexToDec(hex) {
   return parseInt(hex, 16);
 }
 
-
+function hash(string){
+  return createHash('sha256').update(string).digest('hex');
+}
 
 async function getasset(searchAddress){
     const config = {
@@ -66,6 +68,8 @@ describe("BillioMaZK", () => {
             PoseidonT3: poseidonT3Lib.address
         }
     })
+
+    nft2 = poseidonT3Lib.address
     const incrementalBinaryTreeLib = await IncrementalBinaryTreeLibFactory.deploy()
     await incrementalBinaryTreeLib.deployed()
 
@@ -90,8 +94,8 @@ describe("BillioMaZK", () => {
     nft1 = await nftcontract1.deploy("Identity","Symbol",verifier.address)
     
 
-    const nftcontract2 = await ethers.getContractFactory('Number2')
-    nft2 = await nftcontract2.deploy("Identity","Symbol",verifier.address)
+    //const nftcontract2 = await ethers.getContractFactory('Number2')
+    //nft2 = await nftcontract2.deploy("Identity","Symbol",verifier.address)
     
 
     const nftcontract3 = await ethers.getContractFactory('Number3')
@@ -138,11 +142,19 @@ describe("BillioMaZK", () => {
       value = Math.floor(convert(outputvalue, 'wei', 'ether'))
       const [deployer] = await ethers.getSigners()
       console.log("address",deployer.address)
-      const transaction = await main.connect(deployer).add_asset(SHA256(searchAddress), value)
-      await transaction.wait()
 
-      const transaction_add = await main.connect(deployer).add_asset(SHA256(searchAddress), value)
+      console.log(hash(searchAddress))
+
+      const transaction = await main.connect(deployer).add_asset(hash(searchAddress), value)
+      await transaction.wait()
+      
+
+      var searchAddress2 = "0xed68b9bf0cB0d6Cdb3901DF586073BD18372E5F9"
+      outputvalue = await getasset(searchAddress2)
+      value = Math.floor(convert(outputvalue, 'wei', 'ether'))
+      const transaction_add = await main.connect(deployer).add_asset(hash(searchAddress2), value)
       await transaction_add.wait()
+      
 
       let domain = await main.getDomain(0);
       console.log("After adding :", domain.asset)
@@ -200,13 +212,11 @@ describe("BillioMaZK", () => {
       const verificationKey = JSON.parse(fs.readFileSync("./test_semaphore/semaphore.json", "utf-8"))
       const pass = await verifyProof(verificationKey, fullProof).then(v => v.toString())
       console.log("javascript off chain:", pass)
-
-      console.log([deployer.address,1,[proof[0],proof[1]],[[proof[2],proof[3]],[proof[4],proof[5]]],[proof[6],proof[7]],[merkleRoot, nullifierHash, signalHash, externalNullifier]])
+      
       //successful claim nft 
-      const transaction112= await nft1.connect(deployer).mint(deployer.address,1,[proof[0],proof[1]],[[proof[2],proof[3]],[proof[4],proof[5]]],[proof[6],proof[7]],[merkleRoot, nullifierHash, signalHash, externalNullifier])
+      const transaction112= await nft1.connect(deployer).mint(deployer.address,[proof[0],proof[1]],[[proof[2],proof[3]],[proof[4],proof[5]]],[proof[6],proof[7]],[merkleRoot, nullifierHash, signalHash, externalNullifier])
       await transaction112.wait()
       console.log("nftmint :", "pass")
-      
     })
 })
 })

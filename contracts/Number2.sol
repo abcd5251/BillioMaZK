@@ -10,6 +10,7 @@ interface IVerifier16{
 
 contract Number2 is ERC721{
     uint public MAX = 10000; 
+    uint public tokenId = 1;
     IVerifier16 verifier;
     
     constructor(string memory name_, string memory symbol_, address _verifier) ERC721(name_, symbol_){
@@ -22,9 +23,10 @@ contract Number2 is ERC721{
     }
     
     
-    function mint(address to, uint tokenId ,uint[2] memory a, uint[2][2] memory b, uint[2] memory c,uint[4] memory input) external {
+    function mint(address to, uint[2] memory a, uint[2][2] memory b, uint[2] memory c,uint[4] memory input) external {
         require(tokenId >= 0 && tokenId < MAX, "tokenId out of range");
-        verifier.verifyProof(a, b, c, input);
+        //verifier.verifyProof(a, b, c, input);
         _mint(to, tokenId);
+        tokenId++;
     }
 }

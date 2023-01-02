@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
-import  SHA256  from 'crypto-js/sha256'
 import { Alchemy, Network } from "alchemy-sdk"
 import convert from 'ethereum-unit-converter'
-//import { Identity } from "@semaphore-protocol/identity"
-//import { Group } from "@semaphore-protocol/group"
-//import { generateProof, verifyProof , packToSolidityProof} from "@semaphore-protocol/proof"
 
+
+function hash(string) {
+  var hashVal = 0;
+  if (string.length == 0) return hashVal;
+  for (var i = 0; i < string.length; i++) {
+  var char = string.charCodeAt(i);
+  hashVal = ((hashVal << 5) - hashVal) + char;
+  hashVal = hashVal & hashVal;
+     }
+  return hashVal;
+}
 
 function hexToDec(hex) {
   return parseInt(hex, 16);
@@ -51,7 +58,7 @@ const Search = ({mainbillio, semaphore, provider, account}) => {
       console.log(account_password)
       console.log(signer.address)
       
-      const transaction = await mainbillio.connect(signer).login(account_input, SHA256(account_password))
+      const transaction = await mainbillio.connect(signer).login(account_input, hash(account_password))
       await transaction.wait()
 
       document.getElementById("input_account").value = ""
@@ -73,7 +80,7 @@ const Search = ({mainbillio, semaphore, provider, account}) => {
     const signer = await provider.getSigner()
     var address_balance = await getasset(account)
     var value = Math.floor(convert(address_balance, 'wei', 'ether'))
-    const transaction1 = await mainbillio.connect(signer).add_asset(SHA256(account),value)
+    const transaction1 = await mainbillio.connect(signer).add_asset(hash(account),value)
     await transaction1.wait()
     var saving = total_balance + value
     settotal(saving)

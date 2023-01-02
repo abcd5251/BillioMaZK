@@ -193,8 +193,31 @@ header {
   transition: all 250ms ease;
 }
 
-.buttom_title{
-  margin: 40px 0px 50px 400px;
+.downheader_title{
+  margin: 30px 0px 30px 400px;
+}
+
+.proof_input{
+  margin: 0px 0px 50px 400px;
+  height: 60px;
+  width: 600px;
+}
+
+.proof_buttom{
+  margin: 0px 0px 50px 640px;
+  width: 125px;
+  height: 60px;
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+
+  border: none;
+
+  font-family: "Open Sans";
+  font-size: 1em;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 250ms ease;
 }
 
 .header__button4 {

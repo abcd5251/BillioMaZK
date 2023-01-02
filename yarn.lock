@@ -2150,7 +2150,7 @@
     "@nomicfoundation/solidity-analyzer-win32-ia32-msvc" "0.1.0"
     "@nomicfoundation/solidity-analyzer-win32-x64-msvc" "0.1.0"
 
-"@nomiclabs/hardhat-ethers@^2.0.0":
+"@nomiclabs/hardhat-ethers@^2.0.0", "@nomiclabs/hardhat-ethers@^2.1.1":
   "integrity" "sha512-RHWYwnxryWR8hzRmU4Jm/q4gzvXpetUOJ4OPlwH2YARcDB+j79+yAYCwO0lN1SUOb4++oOTJEe6AWLEc42LIvg=="
   "resolved" "https://registry.npmjs.org/@nomiclabs/hardhat-ethers/-/hardhat-ethers-2.2.1.tgz"
   "version" "2.2.1"
@@ -2175,6 +2175,11 @@
   "integrity" "sha512-AGuwhRRL+NaKx73WKRNzeCxOCOCxpaqF+kp8TJ89QzAipSwZy/NoflkWaL9bywXFRhIzXt8j38sfF7KBKCPWLw=="
   "resolved" "https://registry.npmjs.org/@openzeppelin/contracts/-/contracts-4.8.0.tgz"
   "version" "4.8.0"
+
+"@openzeppelin/contracts@4.7.3":
+  "integrity" "sha512-dGRS0agJzu8ybo44pCIf3xBaPQN/65AIXNgK8+4gzKd5kbvlqyxryUYVLJv7fK98Seyd2hDZzVEHSWAh0Bt1Yw=="
+  "resolved" "https://registry.npmjs.org/@openzeppelin/contracts/-/contracts-4.7.3.tgz"
+  "version" "4.7.3"
 
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   "integrity" "sha512-7QV4cqUwhkDIHpMAZ9mestSJ2DMIotVTbOUwbiudhjCRTAWWKIaBecELiEM2LT3AHFeOAaHIcFu4dbXjX+9GBA=="
@@ -2255,6 +2260,14 @@
     "@noble/hashes" "~1.1.1"
     "@scure/base" "~1.1.0"
 
+"@semaphore-protocol/contracts@^2.5.0":
+  "integrity" "sha512-USEw3eZT4im7n8PpsoYyEEKiabmEtUCLMKIuZkMdjSA8k3jg25Y7WR07XFWqKur0OEb4n1nCX3+/ROTWKWSlJA=="
+  "resolved" "https://registry.npmjs.org/@semaphore-protocol/contracts/-/contracts-2.6.1.tgz"
+  "version" "2.6.1"
+  dependencies:
+    "@openzeppelin/contracts" "4.7.3"
+    "@zk-kit/incremental-merkle-tree.sol" "1.3.1"
+
 "@semaphore-protocol/group@^2.6.1", "@semaphore-protocol/group@2.6.1":
   "integrity" "sha512-OgTZijyFBP8i+AIKNPNC2q6Ks98pSJXVSStHXrNPDkcOlCjNBt2beya/pJ0GvZCb+Cdj/bxunOoXnA7iaxXoug=="
   "resolved" "https://registry.npmjs.org/@semaphore-protocol/group/-/group-2.6.1.tgz"
@@ -2262,6 +2275,17 @@
   dependencies:
     "@zk-kit/incremental-merkle-tree" "1.0.0"
     "circomlibjs" "0.0.8"
+
+"@semaphore-protocol/hardhat@^0.1.0":
+  "integrity" "sha512-j2HyKVghl7VHsoJJwjWRTwUvYivJ5EVSNQeq256ivyjSN4cpEluWzdiDnCszCwC2WF294su4gV6oxTv2Qc7tVw=="
+  "resolved" "https://registry.npmjs.org/@semaphore-protocol/hardhat/-/hardhat-0.1.0.tgz"
+  "version" "0.1.0"
+  dependencies:
+    "@nomiclabs/hardhat-ethers" "^2.1.1"
+    "@semaphore-protocol/contracts" "^2.5.0"
+    "circomlibjs" "^0.0.8"
+    "ethers" "^5.7.1"
+    "hardhat-dependency-compiler" "^1.1.3"
 
 "@semaphore-protocol/identity@^2.6.1", "@semaphore-protocol/identity@2.6.1":
   "integrity" "sha512-pS3+p1Oer0P+S2AyRPrZcLqrWvelgVmweUuMC2hodRF5yEBUmLwXI/kez4qw8zOqwCXiAFpLTevaGlpp2EhsWg=="
@@ -3276,6 +3300,11 @@
   "resolved" "https://registry.npmjs.org/@zk-kit/incremental-merkle-tree.sol/-/incremental-merkle-tree.sol-1.3.3.tgz"
   "version" "1.3.3"
 
+"@zk-kit/incremental-merkle-tree.sol@1.3.1":
+  "integrity" "sha512-KdGPoEooSX5MJH7oBE7MCRt/Aej+6n7U6v81w9fIzorSbykNuKH5lMbjkDAsis5xhp2qBC+y1V0xYBA2SNMt8A=="
+  "resolved" "https://registry.npmjs.org/@zk-kit/incremental-merkle-tree.sol/-/incremental-merkle-tree.sol-1.3.1.tgz"
+  "version" "1.3.1"
+
 "@zk-kit/incremental-merkle-tree@0.4.3":
   "integrity" "sha512-2qHfrJXtPx8/UmF0wFAUr4VqCLr3J/P859fk/e3fwKLUnf3baeIUAO6inY4wrh0NGy4bzpKUWYjDph0yTbPz6A=="
   "resolved" "https://registry.npmjs.org/@zk-kit/incremental-merkle-tree/-/incremental-merkle-tree-0.4.3.tgz"
@@ -4049,6 +4078,11 @@
   "resolved" "https://registry.npmjs.org/big-integer/-/big-integer-1.6.51.tgz"
   "version" "1.6.51"
 
+"big-number@^2.0.0":
+  "integrity" "sha512-C67Su0g+XsmXADX/UM9L/+xSbqqwq0D/qGJs2ky6Noy2FDuCZnC38ZSXODiaBvqWma2VYRZEXgm4H74PS6tCDg=="
+  "resolved" "https://registry.npmjs.org/big-number/-/big-number-2.0.0.tgz"
+  "version" "2.0.0"
+
 "big.js@^5.2.2":
   "integrity" "sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ=="
   "resolved" "https://registry.npmjs.org/big.js/-/big.js-5.2.2.tgz"
@@ -4707,6 +4741,17 @@
   "resolved" "https://registry.npmjs.org/circomlib/-/circomlib-2.0.5.tgz"
   "version" "2.0.5"
 
+"circomlibjs@^0.0.8":
+  "integrity" "sha512-oZFYapLO0mfiA+i2GU/V7bRNEEPjVcwV4M444nU5lNsdSJpqLwD57m9zxTD5m/KeY7WQ3lEAC9NNKEPQHu7s1w=="
+  "resolved" "https://registry.npmjs.org/circomlibjs/-/circomlibjs-0.0.8.tgz"
+  "version" "0.0.8"
+  dependencies:
+    "blake-hash" "^2.0.0"
+    "blake2b" "^2.1.3"
+    "ffjavascript" "^0.2.38"
+    "web3" "^1.6.0"
+    "web3-utils" "^1.6.0"
+
 "circomlibjs@^0.1.7":
   "integrity" "sha512-GRAUoAlKAsiiTa+PA725G9RmEmJJRc8tRFxw/zKktUxlQISGznT4hH4ESvW8FNTsrGg/nNd06sGP/Wlx0LUHVg=="
   "resolved" "https://registry.npmjs.org/circomlibjs/-/circomlibjs-0.1.7.tgz"
@@ -5161,6 +5206,11 @@
   "integrity" "sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA=="
   "resolved" "https://registry.npmjs.org/crypto-random-string/-/crypto-random-string-2.0.0.tgz"
   "version" "2.0.0"
+
+"crypto@^1.0.1":
+  "integrity" "sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig=="
+  "resolved" "https://registry.npmjs.org/crypto/-/crypto-1.0.1.tgz"
+  "version" "1.0.1"
 
 "css-blank-pseudo@^3.0.3":
   "integrity" "sha512-VS90XWtsHGqoM0t4KpH053c4ehxZ2E6HtGI7x68YFV0pTo/QmkV/YFA+NnlvK8guxZVNWGQhVNJGC39Q8XF4OQ=="
@@ -6512,7 +6562,7 @@
     "ethjs-util" "0.1.6"
     "rlp" "^2.2.3"
 
-"ethereumjs-util@^7.0.10", "ethereumjs-util@^7.1.0", "ethereumjs-util@^7.1.1", "ethereumjs-util@^7.1.2", "ethereumjs-util@^7.1.4":
+"ethereumjs-util@^7.0.10", "ethereumjs-util@^7.1.0", "ethereumjs-util@^7.1.1", "ethereumjs-util@^7.1.2", "ethereumjs-util@^7.1.4", "ethereumjs-util@^7.1.5":
   "integrity" "sha512-SDl5kKrQAudFBUe5OJM9Ac6WmMyYmXX/6sTmLZ3ffG2eY6ZIGBes3pEDxNN6V72WyOw4CPD5RomKdsa8DAAwLg=="
   "resolved" "https://registry.npmjs.org/ethereumjs-util/-/ethereumjs-util-7.1.5.tgz"
   "version" "7.1.5"
@@ -6538,7 +6588,7 @@
     "uuid" "2.0.1"
     "xmlhttprequest" "1.8.0"
 
-"ethers@^5.0.0", "ethers@^5.1.3", "ethers@^5.4.7", "ethers@^5.5.1", "ethers@^5.5.4":
+"ethers@^5.0.0", "ethers@^5.1.3", "ethers@^5.4.7", "ethers@^5.5.1", "ethers@^5.5.4", "ethers@^5.7.1":
   "integrity" "sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg=="
   "resolved" "https://registry.npmjs.org/ethers/-/ethers-5.7.2.tgz"
   "version" "5.7.2"
@@ -7512,6 +7562,11 @@
   dependencies:
     "ajv" "^6.12.3"
     "har-schema" "^2.0.0"
+
+"hardhat-dependency-compiler@^1.1.3":
+  "integrity" "sha512-bCDqsOxGST6WkbMvj4lPchYWidNSSBm5CFnkyAex1T11cGmr9otZTGl81W6f9pmrtBXbKCvr3OSuNJ6Q394sAw=="
+  "resolved" "https://registry.npmjs.org/hardhat-dependency-compiler/-/hardhat-dependency-compiler-1.1.3.tgz"
+  "version" "1.1.3"
 
 "hardhat-gas-reporter@^1.0.8":
   "integrity" "sha512-INN26G3EW43adGKBNzYWOlI3+rlLnasXTwW79YNnUhXPDa+yHESgt639dJEs37gCjhkbNKcRRJnomXEuMFBXJg=="

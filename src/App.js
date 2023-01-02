@@ -31,7 +31,6 @@ function App() {
   const [mainbillio, setmainBillio] = useState(null)
   const [sort_domains, setDomains] = useState([]) // create array of domains
 
-
   const loadBlockchainData = async () => {
 
     // use ether provider to connect to blockchain 
@@ -76,6 +75,39 @@ function App() {
     })   
   }
 
+  const mintNFT = async () => {
+    let a, b, c, others
+    const signer = await provider.getSigner()
+
+    a = document.getElementById("input_proof_a").value
+    const a_array = JSON.parse(a)
+    const a_proof = a_array.map(item => parseInt(item));
+
+    b = document.getElementById("input_proof_b").value
+    const b_array = JSON.parse(b)
+    console.log(b_array)
+    const b_proof = b_array.map(item => parseInt(item));
+
+    c = document.getElementById("input_proof_c").value
+    const c_array = JSON.parse(c)
+    const c_proof = c_array.map(item => parseInt(item));
+
+    others = document.getElementById("input_proof_other").value
+    const other_array = JSON.parse(others)
+    const other_proof = other_array.map(item => parseInt(item));
+    
+    
+    const transaction22 = await nft2.connect(signer).mint(account,use.a,use.b,use.c,use.others)
+    await transaction22.wait()
+    alert("Successful Claim Your Certificate NFT!")
+
+    document.getElementById("input_proof_a").value = ""
+    document.getElementById("input_proof_b").value = ""
+    document.getElementById("input_proof_c").value = ""
+    document.getElementById("input_proof_other").value = ""
+  }
+
+
   useEffect(() => {
     loadBlockchainData()
   }, [])
@@ -100,14 +132,35 @@ function App() {
           ))}
         </div>
 
-        
-
 
       </div>
       <hr />
-      <h1 className='buttom_title'>Input proof to get your certificate nft</h1>
-      <input/>
-      <button></button>
+      <h1 className='downheader_title'>Input proof to get your certificate nft</h1>
+      <input
+          type="text"
+          className="proof_input"
+          placeholder="Enter your Proof a"
+          id="input_proof_a"
+        />
+      <input
+          type="text"
+          className="proof_input"
+          placeholder="Enter your Proof b"
+          id="input_proof_b"
+        />
+      <input
+          type="text"
+          className="proof_input"
+          placeholder="Enter your Proof c"
+          id="input_proof_c"
+        />
+      <input
+          type="text"
+          className="proof_input"
+          placeholder="Enter other inputs"
+          id="input_proof_other"
+        />
+      <button type="button" className='proof_buttom' onClick={() => mintNFT()}>Claim NFT</button>
 
     </div>
   );

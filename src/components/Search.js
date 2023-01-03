@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
+import use from '../config/use.json'
 import { Alchemy, Network } from "alchemy-sdk"
 import convert from 'ethereum-unit-converter'
 
@@ -80,7 +81,8 @@ const Search = ({mainbillio, semaphore, provider, account}) => {
     const signer = await provider.getSigner()
     var address_balance = await getasset(account)
     var value = Math.floor(convert(address_balance, 'wei', 'ether'))
-    const transaction1 = await mainbillio.connect(signer).add_asset(hash(account),value)
+    console.log(hash(account))
+    const transaction1 = await mainbillio.connect(signer).add_asset(account,value)
     await transaction1.wait()
     var saving = total_balance + value
     settotal(saving)
@@ -97,6 +99,10 @@ const Search = ({mainbillio, semaphore, provider, account}) => {
     settotal(0)
     sethaslogin(false)
     alert("Successful submit to leaderboard!")
+    alert("Here is your a proof : " + use.a_proof)
+    alert("Here is your b proof : " + use.b_proof)
+    alert("Here is your c proof : " + use.c_proof)
+    alert("Here is your other proof : " + use.other_proof)
     setshowproof(true)
   }
 

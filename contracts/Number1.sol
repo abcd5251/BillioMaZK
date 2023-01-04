@@ -20,7 +20,7 @@ contract Number1 is ERC721{
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://ipfs.io/ipfs/QmbJQoserN4U7xkLbwMsTrcggAxzwjVrjWvgSN7QBPoh83";
+        return "https://ipfs.io/ipfs/QmZUjoLPfqE6SBFHe7h23G7RkSixcYfdqxTJZ9Yui4Rsr9";
     }
     
     function mint(address to, uint[2] memory a, uint[2][2] memory b, uint[2] memory c,uint[4] memory input) external {

@@ -36,7 +36,7 @@ async function getasset(searchAddress){
 
     //console.log("Token balance for Address");
     //console.log(data.tokenBalances[0].tokenBalance);
-    console.log(hexToDec(data.tokenBalances[0].tokenBalance))
+    //console.log(hexToDec(data.tokenBalances[0].tokenBalance))
     return hexToDec(data.tokenBalances[0].tokenBalance)
 }
 
@@ -118,7 +118,7 @@ describe("BillioMaZK", () => {
       console.log(`Semaphore contract has been deployed to: ${semaphore.address}`)
       console.log(`mainBillio contract has been deployed to: ${main.address}`)
       console.log(`NFT1 contract has been deployed to: ${nft1.address}`)
-      console.log(`NFT2 contract has been deployed to: ${nft2.address}`)
+      console.log(`NFT2 contract has been deployed to: ${semaphore.address}`)
       console.log(`NFT3 contract has been deployed to: ${nft3.address}`)
     })
 })
@@ -140,10 +140,9 @@ describe("BillioMaZK", () => {
       outputvalue = await getasset(searchAddress) // get address balance
 
       value = Math.floor(convert(outputvalue, 'wei', 'ether'))
+      console.log("first address DAI: ", value)
       const [deployer] = await ethers.getSigners()
       console.log("address",deployer.address)
-
-      console.log(hash(searchAddress))
 
       const transaction = await main.connect(deployer).add_asset(hash(searchAddress), value)
       await transaction.wait()
@@ -152,6 +151,7 @@ describe("BillioMaZK", () => {
       var searchAddress2 = "0xed68b9bf0cB0d6Cdb3901DF586073BD18372E5F9"
       outputvalue = await getasset(searchAddress2)
       value = Math.floor(convert(outputvalue, 'wei', 'ether'))
+      console.log("second address DAI: ", value)
       const transaction_add = await main.connect(deployer).add_asset(hash(searchAddress2), value)
       await transaction_add.wait()
       

@@ -16,7 +16,7 @@ import Number3 from './abis/Number3.json'
 import Semaphore from './abis/Semaphore.json'
 
 // Config
-import use from './config/use.json'
+import config2 from './config/config2.json'
 import config from './config/config.json';
 
 
@@ -32,7 +32,7 @@ function App() {
   const [sort_domains, setDomains] = useState([]) // create array of domains
 
   const loadBlockchainData = async () => {
-
+    document.title = "BillioMaZK"
     // use ether provider to connect to blockchain 
     const provider = new ethers.providers.Web3Provider(window.ethereum) // (window.ethereum, "goerli")
     setProvider(provider)
@@ -41,15 +41,15 @@ function App() {
     console.log(network) // show network info
 
     // contract 
-    const semaphore = new ethers.Contract(config[network.chainId].Semaphore.address, Semaphore, provider)
+    const semaphore = new ethers.Contract(config.Semaphore.address, Semaphore, provider)
     setSemaphore(semaphore)
-    const mainbillio = new ethers.Contract(config[network.chainId].mainBillio.address, mainBillio, provider)
+    const mainbillio = new ethers.Contract(config.mainBillio.address, mainBillio, provider)
     setmainBillio(mainbillio)
-    const nft1 = new ethers.Contract(config[network.chainId].NFT1.address, Number1, provider)
+    const nft1 = new ethers.Contract(config.NFT1.address, Number1, provider)
     setNFT1(nft1)
-    const nft2 = new ethers.Contract(config[network.chainId].NFT2.address, Number2, provider)
+    const nft2 = new ethers.Contract(config.NFT2.address, Number2, provider)
     setNFT2(nft2)
-    const nft3 = new ethers.Contract(config[network.chainId].NFT3.address, Number3, provider)
+    const nft3 = new ethers.Contract(config.NFT3.address, Number3, provider)
     setNFT3(nft3)
 
     // Calculate Asset rank 
@@ -97,7 +97,7 @@ function App() {
     const other_proof = other_array.map(item => parseInt(item));
     
     
-    const transaction22 = await nft2.connect(signer).mint(account,use.a,use.b,use.c,use.others)
+    const transaction22 = await nft2.connect(signer).mint(account, config2.a,config2.b,config2.c,config2.others)
     await transaction22.wait()
     alert("Successful Claim Your Certificate NFT!")
 

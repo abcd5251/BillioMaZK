@@ -1,22 +1,20 @@
 {
-  "31337": {
-    "mainBillio": {
-      "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853"
-    },
-    "Semaphore": {
-      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
-    },
-    "NFT1": {
-      "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
-    },
-    "NFT2": {
-      "address": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318"
-    },
-    "NFT3": {
-      "address": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788"
-    },
-    "Verifier": {
-      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
-    }
+  "mainBillio": {
+    "address": "0x1974656f2C8551075DC3F3566DA66eaa22fA6d30"
+  },
+  "Semaphore": {
+    "address": "0xd590Cb5391323e65d85ea2aaE54ae22335bAD925"
+  },
+  "NFT1": {
+    "address": "0x37e7f28De4ea72B280cf9D397c32da58E782a923"
+  },
+  "NFT2": {
+    "address": "0xa95258EcC3667642ba0D49773B32BE2eB20a3d98"
+  },
+  "NFT3": {
+    "address": "0x719f69081131639a3442fC03f8D43c5ea2181b6c"
+  },
+  "Verifier": {
+    "address": "0x1131c3E563e00135d696B87004638ed70a101cD7"
   }
 }

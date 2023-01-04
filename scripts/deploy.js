@@ -54,16 +54,16 @@ async function main() {
     console.log(`Semaphore contract has been deployed to: ${semaphore.address}`)
 
     // Create three certificate of semaphore group
-    const transaction_group1 = await semaphore.connect(deployer).createGroup(1, 16, BigInt(1), deployer.address)
-    await transaction_group1.wait()
+    //const transaction_group1 = await semaphore.connect(deployer).createGroup(1, 16, BigInt(1), deployer.address)
+    //await transaction_group1.wait()
     console.log(`Group1 has created`)
 
-    const transaction_group2 = await semaphore.connect(deployer).createGroup(2, 16, BigInt(1), deployer.address)
-    await transaction_group2.wait()
+    //const transaction_group2 = await semaphore.connect(deployer).createGroup(2, 16, BigInt(1), deployer.address)
+    //await transaction_group2.wait()
     console.log(`Group2 has created`)
 
-    const transaction_group3 = await semaphore.connect(deployer).createGroup(3, 16, BigInt(1), deployer.address)
-    await transaction_group3.wait()
+    //const transaction_group3 = await semaphore.connect(deployer).createGroup(3, 16, BigInt(1), deployer.address)
+    //await transaction_group3.wait()
     console.log(`Group3 has created`)
 
     // deploy main contract
@@ -97,7 +97,6 @@ async function main() {
     console.log(maxPeople.toString()) 
 
     const contract_addresses = {
-      "31337": {
           "mainBillio": {
               "address": main.address
           },
@@ -116,7 +115,6 @@ async function main() {
           "Verifier": {
               "address": verifier.address
           }
-      }
   }
   saveconfigaddress(contract_addresses);
 }

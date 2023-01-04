@@ -19,7 +19,7 @@ contract Number2 is ERC721{
 
     
     function _baseURI() internal pure override returns (string memory) {
-        return "https://ipfs.io/ipfs/QmeNr4GxpAr3xsF33jKtDkZ2hrJAenzTgSuXJdtFTFXZPD";
+        return "https://ipfs.io/ipfs/QmZUjoLPfqE6SBFHe7h23G7RkSixcYfdqxTJZ9Yui4Rsr9";
     }
     
     

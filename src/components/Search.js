@@ -40,7 +40,7 @@ async function getasset(searchAddress){
 }
 
 const Search = ({mainbillio, semaphore, provider, account}) => {
-  
+  const [times, settimes] = useState(1)
   const [haslogin, sethaslogin] = useState(false)
   const [showproof, setshowproof] = useState(false)
   const [account_name, setaccount_name] = useState("")
@@ -72,6 +72,7 @@ const Search = ({mainbillio, semaphore, provider, account}) => {
   const countasset = async () => {
       var address_balance = await getasset(account)
       var value = Math.floor(convert(address_balance, 'wei', 'ether'))
+      
       setcurrent(value)
   }
 
@@ -79,12 +80,15 @@ const Search = ({mainbillio, semaphore, provider, account}) => {
     const signer = await provider.getSigner()
     var address_balance = await getasset(account)
     var value = Math.floor(convert(address_balance, 'wei', 'ether'))
+
     console.log("Have balance :",value," DAI")
 
     const transaction1 = await mainbillio.connect(signer).add_asset(account,value)
     await transaction1.wait()
     var saving = total_balance + value
     settotal(saving)
+    settimes(2)
+    
     alert("Successful add your asset!")
 }
 

@@ -16,8 +16,7 @@ import Number3 from './abis/Number3.json'
 import Semaphore from './abis/Semaphore.json'
 
 // Config
-import config2 from './config/config2.json'
-import config from './config/config.json';
+import config from './config/config.json'
 
 
 function App() {
@@ -97,7 +96,7 @@ function App() {
     const other_proof = other_array.map(item => parseInt(item));
     
     
-    const transaction22 = await nft2.connect(signer).mint(account, config2.a,config2.b,config2.c,config2.others)
+    const transaction22 = await nft2.connect(signer).mint(account, a_proof, b_proof, c_proof, other_proof)
     await transaction22.wait()
     alert("Successful Claim Your Certificate NFT!")
 

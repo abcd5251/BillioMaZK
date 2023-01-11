@@ -24,4 +24,4 @@ template checkexist(k){
     root === computed_root.out;
 }
 
-component main{public [leaf , root, paths2_root , paths2_root_pos]} = checkexist(2);
+component main{public [leaf , root, paths2_root , paths2_root_pos]} = checkexist(4);

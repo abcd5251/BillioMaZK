@@ -1,0 +1,12 @@
+{
+    "name" : "Third",
+    "description": "Your are ordinary",
+    "image" : "https://ipfs.io/ipfs/QmVpGJHSagiSHStiXT61U3WCie1Ggij7quTJpuTkm5NPjV/3.png",
+    "attributes": [
+        {
+            "trait_type": "Strength",
+            "value": 5,
+            "max_value": 10
+        }
+    ]
+}

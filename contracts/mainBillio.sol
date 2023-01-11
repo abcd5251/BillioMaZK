@@ -32,10 +32,10 @@ contract mainBillio{
         _;
     }
 
-    function login(string memory _name, string memory _id) public onlyOwner{
-        require(!secret_name[_id],"Password already used!");
+    function login(string memory _name, string memory _commitment) public onlyOwner{
+        require(!secret_name[_commitment],"Password already used!");
         require(!account_name[_name], "Account Name already used!");
-        secret_name[_id] = true;
+        secret_name[_commitment] = true;
         domains[maxPeople] =  Domain(_name, 0, maxPeople);
         logging = true;
     }

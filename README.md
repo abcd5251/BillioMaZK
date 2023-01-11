@@ -23,12 +23,12 @@ The goal of this project is to create a decentralized identity that can check th
 ### 3. Run tests
 `$ npx hardhat test`
 
-### 4. Start Hardhat node
+### 4. Start Hardhat node (if run in local)
 `$ npx hardhat node`
 
 ### 5. Run deployment script
 In a separate terminal execute:
-`$ npx hardhat run ./scripts/deploy.js --network localhost`
+`$ yarn deploy`
 
 ### 7. Start frontend
-`$ npm run start`
+`$ yarn run start`

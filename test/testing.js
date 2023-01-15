@@ -1,6 +1,7 @@
 require('dotenv').config()
 const { expect } = require("chai")
 const { Alchemy, Network } = require("alchemy-sdk");
+const { groth16 } = require("snarkjs");
 const convert = require('ethereum-unit-converter')
 const { Identity } = require("@semaphore-protocol/identity")
 const { Group } = require("@semaphore-protocol/group")
@@ -47,7 +48,7 @@ const tokens = (n) => {
 }
 
 describe("BillioMaZK", () => {
-  let main, semaphore , identity1, nft1, nft2, nft3
+  let main, semaphore , identity1, nft1, nft2, nft3, User, args
   
 
   beforeEach(async() => {
@@ -163,28 +164,32 @@ describe("BillioMaZK", () => {
 })
 
   describe("Save group", () => {
+    beforeEach(async() => {
+      const [deployer] = await ethers.getSigners()
+      //console.log("address : ",deployer.address)
+
+       // Create group 
+       const transaction_group1 = await semaphore.connect(deployer).createGroup(1, 16, BigInt(1), deployer.address)
+       await transaction_group1.wait()
+ 
+       const transaction_group2 = await semaphore.connect(deployer).createGroup(2, 16, BigInt(1), deployer.address)
+       await transaction_group2.wait()
+ 
+       const transaction_group3 = await semaphore.connect(deployer).createGroup(3, 16, BigInt(1), deployer.address)
+       await transaction_group3.wait()
+
+       User = deployer
+    
+    })
     it('Successful save to correct group and verify the proof', async() => {
 
-      const [deployer] = await ethers.getSigners()
-      console.log("address",deployer.address)
-
       // Save asset 
-      const transaction_save = await main.connect(deployer).save_asset()
+      const transaction_save = await main.connect(User).save_asset()
       await transaction_save.wait()
       const logging_status = await main.logging()
       console.log("logging status: ", logging_status)
-
-      // Create group 
-      const transaction_group1 = await semaphore.connect(deployer).createGroup(1, 16, BigInt(1), deployer.address)
-      await transaction_group1.wait()
-
-      const transaction_group2 = await semaphore.connect(deployer).createGroup(2, 16, BigInt(1), deployer.address)
-      await transaction_group2.wait()
-
-      const transaction_group3 = await semaphore.connect(deployer).createGroup(3, 16, BigInt(1), deployer.address)
-      await transaction_group3.wait()
       
-      const addddd = await semaphore.connect(deployer).addMember(1, identity1.commitment)
+      const addddd = await semaphore.connect(User).addMember(1, identity1.commitment)
       await addddd.wait()
 
       // generate proof   
@@ -198,12 +203,17 @@ describe("BillioMaZK", () => {
         zkeyFilePath: "./test_semaphore/semaphore.zkey",
         wasmFilePath: "./test_semaphore/semaphore.wasm"
       })
-
+      
+      // process proof 
       const proof = packToSolidityProof(fullProof.proof)
-
-      // verify proof onchain 
       const { merkleRoot, nullifierHash, signalHash, externalNullifier} = fullProof.publicSignals
-      const transaction10 = await semaphore.connect(deployer).verifyProof(1, merkleRoot, greeting, nullifierHash, externalNullifier, proof)
+
+      const calldata = await groth16.exportSolidityCallData(fullProof.proof,[merkleRoot, nullifierHash, signalHash, externalNullifier])
+      args = JSON.parse("[" + calldata + "]")
+      console.log(args)
+      
+      // verify proof onchain 
+      const transaction10 = await semaphore.connect(User).verifyProof(1, merkleRoot, greeting, nullifierHash, externalNullifier, proof)
       await transaction10.wait()
       console.log("Solidity on chain:", "pass")
 
@@ -212,9 +222,56 @@ describe("BillioMaZK", () => {
       const verificationKey = JSON.parse(fs.readFileSync("./test_semaphore/semaphore.json", "utf-8"))
       const pass = await verifyProof(verificationKey, fullProof).then(v => v.toString())
       console.log("javascript off chain:", pass)
+    })
+
+    it('Successful claim NFT', async() => {
+      // Calculate account signature 
+      // use 0xe16C1623c1AA7D919cd2241d8b36d9E79C1Be2A2 account to claim nft 
+      const account = "0xe16C1623c1AA7D919cd2241d8b36d9E79C1Be2A2"
+      const privateKey = "0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b"
+      
+
+      // msg hash for check 
+      /*
+      const b_msg = ethers.utils.solidityPack(["address","uint256"],[mint_account,0])
+      const msg = ethers.utils.keccak256(b_msg)
+      const a_msg = ethers.utils.solidityPack(["string","bytes32"],["\x19Ethereum Signed Message:\n32", msg])
+      const hash_msg = ethers.utils.keccak256(a_msg)
+      */
+      
+      
+      // eth_sign is different from personal sign (metamask use personal sign)
+      // so cannot use ether.wallet.signMessage
+      /*
+      const wallet = new ethers.Wallet(privateKey)
+      const signature = await wallet.signMessage(hash_msg)
+      console.log(signature)
+      const {v, r, s} = ethers.utils.splitSignature(signature);
+      console.log(`${r}${s}${v.toString(16).padStart(2, '0')}`)
+      console.log(sss)
+      */
+
+
+      // check recover signer address
+      // const cc = await nft1.connect(User).check_recover("0xb42ca4636f721c7a331923e764587e98ec577cea1a185f60dfcc14dbb9bd900b",signature)
+      // console.log("signer address :",cc)
+      var tokenId = 0
+      const b_msg = ethers.utils.solidityPack(["address","uint256"],[account,tokenId])
+      const msg = ethers.utils.keccak256(b_msg)
+      console.log(msg)
+      
+      // use this to get signature of account
+      /*
+      ethereum.enable()
+      account = "0xe16C1623c1AA7D919cd2241d8b36d9E79C1Be2A2"
+      hash = msg
+      ethereum.request({method: "personal_sign", params: [account, hash]})
+      */
+
+      var signature = "0xbf91e94743ed1f15afeb48d87a12b08a789f451c05b5caa826a5e5971a0321883aa421f0d98c078228d9fb3cf4a9ecb39b169662b754d87bb03231504fd7533b1b"
       
       //successful claim nft 
-      const transaction112= await nft1.connect(deployer).mint(deployer.address,[proof[0],proof[1]],[[proof[2],proof[3]],[proof[4],proof[5]]],[proof[6],proof[7]],[merkleRoot, nullifierHash, signalHash, externalNullifier])
+      const transaction112= await nft1.connect(User).mint(account,signature,...args)
       await transaction112.wait()
       console.log("nftmint :", "pass")
     })

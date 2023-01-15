@@ -5,6 +5,7 @@ import { Alchemy, Network } from "alchemy-sdk"
 import convert from 'ethereum-unit-converter'
 
 
+
 function hash(string) {
   var hashVal = 0;
   if (string.length == 0) return hashVal;
@@ -22,7 +23,7 @@ function hexToDec(hex) {
 
 async function getasset(searchAddress){
   const config = {
-    apiKey: "SEIDb2b8ce6bAGXPCRaEtr_SPi-WpFjq",
+    apiKey: process.env.ALCHEMY_APIKEY,
     network: Network.ETH_MAINNET,
   };
   

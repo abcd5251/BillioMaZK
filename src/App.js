@@ -75,8 +75,14 @@ function App() {
   }
 
   const mintNFT = async () => {
-    let a, b, c, others
+    let a, b, c, others, hash
     const signer = await provider.getSigner()
+
+    const tokenid = await nft2.tokenId()
+    const b_msg = ethers.utils.solidityPack(["address","uint256"],[account,tokenid])
+    const msg = ethers.utils.keccak256(b_msg)
+    window.ethereum.enable() 
+    const signature = window.ethereum.request({method: "personal_sign", params: [account, msg]})
 
     a = document.getElementById("input_proof_a").value
     const a_array = JSON.parse(a)

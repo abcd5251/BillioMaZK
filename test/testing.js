@@ -228,17 +228,6 @@ describe("BillioMaZK", () => {
       // Calculate account signature 
       // use 0xe16C1623c1AA7D919cd2241d8b36d9E79C1Be2A2 account to claim nft 
       const account = "0xe16C1623c1AA7D919cd2241d8b36d9E79C1Be2A2"
-      const privateKey = "0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b"
-      
-
-      // msg hash for check 
-      /*
-      const b_msg = ethers.utils.solidityPack(["address","uint256"],[mint_account,0])
-      const msg = ethers.utils.keccak256(b_msg)
-      const a_msg = ethers.utils.solidityPack(["string","bytes32"],["\x19Ethereum Signed Message:\n32", msg])
-      const hash_msg = ethers.utils.keccak256(a_msg)
-      */
-      
       
       // eth_sign is different from personal sign (metamask use personal sign)
       // so cannot use ether.wallet.signMessage
@@ -251,25 +240,32 @@ describe("BillioMaZK", () => {
       console.log(sss)
       */
 
-
-      // check recover signer address
-      // const cc = await nft1.connect(User).check_recover("0xb42ca4636f721c7a331923e764587e98ec577cea1a185f60dfcc14dbb9bd900b",signature)
-      // console.log("signer address :",cc)
-      var tokenId = 0
+      var tokenId = 1
       const b_msg = ethers.utils.solidityPack(["address","uint256"],[account,tokenId])
       const msg = ethers.utils.keccak256(b_msg)
       console.log(msg)
-      
-      // use this to get signature of account
+      const a_msg = ethers.utils.solidityPack(["string","bytes32"],["\x19Ethereum Signed Message:\n32", msg])
+      const hash_msg = ethers.utils.keccak256(a_msg)
+      console.log(hash_msg)
+
+      const transaction1112= await nft1.connect(User).ethSignedMessageHash(account,tokenId)
+      console.log(transaction1112)
+
+       // remember if change address or tokenID, signature need to change
+      // use this to get signature of account, 
       /*
       ethereum.enable()
       account = "0xe16C1623c1AA7D919cd2241d8b36d9E79C1Be2A2"
-      hash = msg
+      hash = msg   // 0x720a2781b027747cc69460f967811632863b5c22a5643d21119e5948faf9cacf
       ethereum.request({method: "personal_sign", params: [account, hash]})
       */
+      var signature = "0x3eb288390a6fb89743329725bb25ae9db311c9dc611fe2da787057ba7a730f6c7c1f5ab8fb9ab9465200a9cfa64173e04b4b79623efa44a749e95f405e879bd01c"
 
-      var signature = "0xbf91e94743ed1f15afeb48d87a12b08a789f451c05b5caa826a5e5971a0321883aa421f0d98c078228d9fb3cf4a9ecb39b169662b754d87bb03231504fd7533b1b"
-      
+      // check recover signer address
+      const cc = await nft1.connect(User).checkrecover("0xac74a2edc1f35e5bb92cb6b4ae05ac8cbe6a5628a64bac4d619fccb0b0f37daf",signature)
+      console.log("signer address :",cc)
+
+
       //successful claim nft 
       const transaction112= await nft1.connect(User).mint(account,signature,...args)
       await transaction112.wait()

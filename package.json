@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.0",
+    "@openzeppelin/contracts": "^4.8.1",
     "@semaphore-protocol/group": "^2.6.1",
     "@semaphore-protocol/identity": "^2.6.1",
     "@semaphore-protocol/proof": "^2.6.1",

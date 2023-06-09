@@ -36,8 +36,15 @@ async function getasset(searchAddress){
   searchAddress,
   tokenContractAddresses
   );
-
-  return hexToDec(data.tokenBalances[0].tokenBalance)
+  
+  function getRandom(min,max){
+    return Math.floor(Math.random()*(max-min+1))+min;
+  };
+  var money = getRandom(1,10);
+  console.log("mm",money)
+  console.log("aa",hexToDec(data.tokenBalances[0].tokenBalance))
+  return money
+  //return hexToDec(data.tokenBalances[0].tokenBalance)
 }
 
 const Search = ({mainbillio, semaphore, provider, account}) => {
@@ -47,6 +54,7 @@ const Search = ({mainbillio, semaphore, provider, account}) => {
   const [account_name, setaccount_name] = useState("")
   const [current_balance, setcurrent] = useState(0)
   const [total_balance, settotal] = useState(0)
+  
 
   const clicklogin = async () => {
 
@@ -71,22 +79,24 @@ const Search = ({mainbillio, semaphore, provider, account}) => {
   }
 
   const countasset = async () => {
-      var address_balance = await getasset(account)
-      var value = Math.floor(convert(address_balance, 'wei', 'ether'))
-      
+      //var address_balance = await getasset(account)
+      //var value = Math.floor(convert(address_balance, 'wei', 'ether'))
+      var value = await getasset(account)
+      console.log("your value",value)
       setcurrent(value)
   }
 
   const addasset = async () => {
     const signer = await provider.getSigner()
-    var address_balance = await getasset(account)
-    var value = Math.floor(convert(address_balance, 'wei', 'ether'))
+    //var address_balance = await getasset(account)
+    //var value = Math.floor(convert(address_balance, 'wei', 'ether'))
+    
+    
+    console.log("Have balance :",current_balance," DAI")
 
-    console.log("Have balance :",value," DAI")
-
-    const transaction1 = await mainbillio.connect(signer).add_asset(account,value)
+    const transaction1 = await mainbillio.connect(signer).add_asset(account,current_balance)
     await transaction1.wait()
-    var saving = total_balance + value
+    var saving = total_balance + current_balance
     settotal(saving)
     settimes(2)
     

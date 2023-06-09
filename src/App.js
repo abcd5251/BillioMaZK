@@ -78,7 +78,8 @@ function App() {
     let a, b, c, others, hash
     const signer = await provider.getSigner()
 
-    const tokenid = await nft2.tokenId()
+    //const tokenid = await nft2.tokenId()
+    var tokenid = 12345
     const b_msg = ethers.utils.solidityPack(["address","uint256"],[account,tokenid])
     const msg = ethers.utils.keccak256(b_msg)
     window.ethereum.enable() 
